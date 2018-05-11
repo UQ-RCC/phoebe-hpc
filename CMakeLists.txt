@@ -2,15 +2,19 @@
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.8)
-
 project ("phoebe-hpc")
+
+set(CMAKE_DEBUG_TARGET_PROPERTIES
+  INCLUDE_DIRECTORIES
+  COMPILE_DEFINITIONS  
+  PUBLIC_HEADER  
+)
+
+include("LocalBoost.cmake")
+create_boost_target()
 
 # Include sub-projects.
 add_subdirectory ("phoebe-hpc")
 
-get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY CACHE_VARIABLES)
-foreach(dir ${dirs})
-   message(STATUS "property '${dir} : ${${dir}}'")
-endforeach()
+#print_cache()
 
-message(STATUS "CMAKE_BINARY_DIR : ${CMAKE_BINARY_DIR}")

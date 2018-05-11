@@ -1,3 +1,11 @@
 # ninja log v5
 1	443	547699475	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	61fae729b8a3a030
 443	975	547699475	phoebe-hpc/phoebehpc.exe	d7ecd6fcac3012d0
+1	296	547719938	build.ninja	5c143dae38939a64
+1	348	547720140	build.ninja	5c143dae38939a64
+2	705	547720141	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+706	1002	547720141	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
+1	426	547720450	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+426	715	547720450	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
+1	402	547720479	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+402	673	547720479	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b

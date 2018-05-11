@@ -2,11 +2,11 @@
 //
 
 #include "phoebe-hpc.h"
-
-using namespace std;
+#include <boost/version.hpp>
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	std::cout << "boost lib version: " << BOOST_LIB_VERSION << std::endl;
+	std::cin.get();
 	return 0;
 }

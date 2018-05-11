@@ -73,6 +73,7 @@ build phoebe-hpc\rebuild_cache: phony phoebe-hpc\CMakeFiles\rebuild_cache.util
 build cmake_object_order_depends_target_phoebehpc: phony
 build phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj: CXX_COMPILER__phoebehpc ..\..\phoebe-hpc\phoebe-hpc.cpp || cmake_object_order_depends_target_phoebehpc
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG
+  INCLUDES = -ID:\boost_1_66_0
   OBJECT_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   OBJECT_FILE_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   TARGET_COMPILE_PDB = phoebe-hpc\CMakeFiles\phoebehpc.dir\
@@ -85,10 +86,10 @@ build phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj: CXX_COMPILER__phoe
 #############################################
 # Link the executable phoebe-hpc\phoebehpc.exe
 
-build phoebe-hpc\phoebehpc.exe: CXX_EXECUTABLE_LINKER__phoebehpc phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj
+build phoebe-hpc\phoebehpc.exe: CXX_EXECUTABLE_LINKER__phoebehpc phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj | D$:\boost_1_66_0\stage\lib\libboost_chrono-vc141-mt-x64-1_66.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = D:\boost_1_66_0\stage\lib\libboost_chrono-vc141-mt-x64-1_66.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -148,34 +149,36 @@ ident7 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\I
 ident8 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInitialize.cmake
 ident9 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\CMakeCommonCompilerMacros.cmake
 ident10 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\MSVC-CXX.cmake
-ident11 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake
-ident12 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake
-ident13 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake
-ident14 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake
-ident15 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake
-build build.ninja: RERUN_CMAKE | ..\..\CMakeLists.txt ..\..\phoebe-hpc\CMakeLists.txt $ident0 $ident1 $ident2 $ident3 $ident4 $ident5 $ident6 $ident7 $ident8 $ident9 $ident10 $ident11 $ident12 $ident13 $ident14 $ident15 CMakeCache.txt CMakeFiles\3.11.18040201-MSVC_2\CMakeCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeCXXCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeRCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeSystem.cmake
+ident11 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\FindBoost.cmake
+ident12 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake
+ident13 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake
+ident14 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake
+ident15 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake
+ident16 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake
+build build.ninja: RERUN_CMAKE | ..\..\CMakeLists.txt ..\..\LocalBoost.cmake ..\..\phoebe-hpc\CMakeLists.txt $ident0 $ident1 $ident2 $ident3 $ident4 $ident5 $ident6 $ident7 $ident8 $ident9 $ident10 $ident11 $ident12 $ident13 $ident14 $ident15 $ident16 CMakeCache.txt CMakeFiles\3.11.18040201-MSVC_2\CMakeCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeCXXCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeRCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeSystem.cmake
   pool = console
 
 #############################################
 # A missing CMake input file is not an error.
 
-ident16 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCInformation.cmake
-ident17 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCXXInformation.cmake
-ident18 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake
-ident19 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeGenericSystem.cmake
-ident20 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeInitializeConfigs.cmake
-ident21 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake
-ident22 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeRCInformation.cmake
-ident23 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInformation.cmake
-ident24 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInitialize.cmake
-ident25 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\CMakeCommonCompilerMacros.cmake
-ident26 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\MSVC-CXX.cmake
-ident27 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake
-ident28 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake
-ident29 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake
-ident30 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake
-ident31 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake
-build ..\..\CMakeLists.txt ..\..\phoebe-hpc\CMakeLists.txt $ident16 $ident17 $ident18 $ident19 $ident20 $ident21 $ident22 $ident23 $ident24 $ident25 $ident26 $ident27 $ident28 $ident29 $ident30 $ident31 CMakeCache.txt CMakeFiles\3.11.18040201-MSVC_2\CMakeCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeCXXCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeRCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeSystem.cmake: phony
+ident17 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCInformation.cmake
+ident18 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCXXInformation.cmake
+ident19 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeCommonLanguageInclude.cmake
+ident20 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeGenericSystem.cmake
+ident21 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeInitializeConfigs.cmake
+ident22 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeLanguageInformation.cmake
+ident23 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeRCInformation.cmake
+ident24 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInformation.cmake
+ident25 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\CMakeSystemSpecificInitialize.cmake
+ident26 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\CMakeCommonCompilerMacros.cmake
+ident27 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Compiler\MSVC-CXX.cmake
+ident28 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\FindBoost.cmake
+ident29 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-C.cmake
+ident30 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC-CXX.cmake
+ident31 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows-MSVC.cmake
+ident32 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\Windows.cmake
+ident33 = C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.11\Modules\Platform\WindowsPaths.cmake
+build ..\..\CMakeLists.txt ..\..\LocalBoost.cmake ..\..\phoebe-hpc\CMakeLists.txt $ident17 $ident18 $ident19 $ident20 $ident21 $ident22 $ident23 $ident24 $ident25 $ident26 $ident27 $ident28 $ident29 $ident30 $ident31 $ident32 $ident33 CMakeCache.txt CMakeFiles\3.11.18040201-MSVC_2\CMakeCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeCXXCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeRCCompiler.cmake CMakeFiles\3.11.18040201-MSVC_2\CMakeSystem.cmake: phony
 
 #############################################
 # Clean all the built files.
