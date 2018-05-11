@@ -15,8 +15,10 @@ function(create_boost_target)
 	endif()
 
 	find_package(Boost)
+	message(STATUS "boost include dir : ${Boost_INCLUDE_DIRS}")
+
 	add_library(boost STATIC IMPORTED)
-	set_property(TARGET boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${boost_INCLUDE_DIR})
+	set_property(TARGET boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 
 	foreach(lib ${BOOST_OPTIONS})
 		message(STATUS ${Boost_LIBRARY_DIRS}/${BOOST_LIB_PREFIX}${lib}${BOOST_LIB_SUFFIX})
