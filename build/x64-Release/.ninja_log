@@ -9,3 +9,6 @@
 426	715	547720450	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
 1	402	547720479	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
 402	673	547720479	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
+0	308	547724539	build.ninja	5c143dae38939a64
+1	741	547724539	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+742	1046	547724540	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b

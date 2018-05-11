@@ -73,7 +73,6 @@ build phoebe-hpc\rebuild_cache: phony phoebe-hpc\CMakeFiles\rebuild_cache.util
 build cmake_object_order_depends_target_phoebehpc: phony
 build phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj: CXX_COMPILER__phoebehpc ..\..\phoebe-hpc\phoebe-hpc.cpp || cmake_object_order_depends_target_phoebehpc
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG
-  INCLUDES = -ID:\boost_1_66_0
   OBJECT_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   OBJECT_FILE_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   TARGET_COMPILE_PDB = phoebe-hpc\CMakeFiles\phoebehpc.dir\

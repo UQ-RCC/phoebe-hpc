@@ -14,9 +14,9 @@ function(create_boost_target)
 		set(BOOST_LIB_SUFFIX ".a")
 	endif()
 
-	add_library(boost STATIC IMPORTED)
-	set_property(TARGET boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${BOOST_ROOT})
 	find_package(Boost)
+	add_library(boost STATIC IMPORTED)
+	set_property(TARGET boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${boost_INCLUDE_DIR})
 
 	foreach(lib ${BOOST_OPTIONS})
 		message(STATUS ${Boost_LIBRARY_DIRS}/${BOOST_LIB_PREFIX}${lib}${BOOST_LIB_SUFFIX})
