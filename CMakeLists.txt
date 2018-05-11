@@ -10,7 +10,7 @@ set(CMAKE_DEBUG_TARGET_PROPERTIES
   PUBLIC_HEADER  
 )
 
-include("LocalBoost.cmake")
+include("ImportTargets.cmake")
 create_boost_target()
 
 # Include sub-projects.
