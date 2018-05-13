@@ -8,7 +8,7 @@ int main()
 {
 	std::cout << "boost lib version: " << BOOST_LIB_VERSION << std::endl;
 #ifdef _WIN32
-	std::cout << "enter to exit" << std::endl;
+	std::cout << "Enter to exit" << std::endl;
 	std::cin.get();
 #endif // _WIN32
 	return 0;
