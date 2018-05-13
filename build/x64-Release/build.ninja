@@ -86,10 +86,10 @@ build phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj: CXX_COMPILER__phoe
 #############################################
 # Link the executable phoebe-hpc\phoebehpc.exe
 
-build phoebe-hpc\phoebehpc.exe: CXX_EXECUTABLE_LINKER__phoebehpc phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj | D$:\boost_1_66_0\stage\lib\libboost_chrono-vc141-mt-x64-1_66.lib
+build phoebe-hpc\phoebehpc.exe: CXX_EXECUTABLE_LINKER__phoebehpc phoebe-hpc\CMakeFiles\phoebehpc.dir\phoebe-hpc.cpp.obj | D$:\boost_1_66_0\stage\lib\libboost_system-vc141-mt-x64-1_66.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = D:\boost_1_66_0\stage\lib\libboost_chrono-vc141-mt-x64-1_66.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = D:\boost_1_66_0\stage\lib\libboost_system-vc141-mt-x64-1_66.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = phoebe-hpc\CMakeFiles\phoebehpc.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

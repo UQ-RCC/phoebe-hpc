@@ -10,3 +10,10 @@
 411	651	547954624	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
 1	421	547954785	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
 421	695	547954785	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
+1	363	547956415	build.ninja	5c143dae38939a64
+0	374	547957208	build.ninja	5c143dae38939a64
+3	708	547957209	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+708	1000	547957209	phoebe-hpc/phoebehpc.exe	b3ea3fffebe7b40b
+1	353	547957329	build.ninja	5c143dae38939a64
+1	402	547957330	phoebe-hpc/CMakeFiles/phoebehpc.dir/phoebe-hpc.cpp.obj	c7c01f16d24ff86a
+403	635	547957330	phoebe-hpc/phoebehpc.exe	80b084f2e0155e71
