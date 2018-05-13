@@ -2,7 +2,7 @@
 
 function(create_boost_target)
 
-	set(BOOST_OPTIONS thread system date_time regex chrono)
+	# set(BOOST_OPTIONS thread system date_time regex chrono)
 	set(BOOST_LIB_PREFIX "libboost_")
 
 	if(WIN32)	
