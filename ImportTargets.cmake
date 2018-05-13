@@ -27,6 +27,12 @@ function(create_boost_target)
 	
 endfunction()
 
+function(create_itk_target)
+	find_package(ITK REQUIRED)
+	message(STATUS "ITK_DIR : ${ITK_DIR}")
+	message(STATUS "ITK_USE_FILE : ${ITK_USE_FILE}")
+endfunction()
+
 function(print_cache)
 	get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY CACHE_VARIABLES)
 	foreach(dir ${dirs})
