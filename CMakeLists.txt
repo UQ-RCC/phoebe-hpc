@@ -14,7 +14,7 @@ include("ImportTargets.cmake")
 create_boost_target()
 
 # Include sub-projects.
-add_subdirectory ("phoebe-hpc")
+add_subdirectory ("test")
 
 #print_cache()
 
