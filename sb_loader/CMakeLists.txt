@@ -1,18 +1,13 @@
 
-
 add_library(sb_reader SHARED IMPORTED)
 set_property(TARGET sb_reader PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 if(UNIX)	
 	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libSBReadFile.so)
+	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/lib/libSBReadFile.so DESTINATION lib)
 else()	
 	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.dll)
 	set_property(TARGET sb_reader PROPERTY IMPORTED_IMPLIB ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.lib)
 endif()
-
-if(TARGET sb_reader)
-	message(STATUS "sb_reader is a target")
-endif()
-print_target_properties(sb_reader)
 
 add_executable(loader
 	src/sb_loader.cpp
@@ -30,8 +25,3 @@ target_link_libraries(loader
 		sb_reader
 )
 
-install(TARGETS loader
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-)
