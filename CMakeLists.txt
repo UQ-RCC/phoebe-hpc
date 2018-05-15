@@ -1,9 +1,4 @@
-﻿
-cmake_minimum_required (VERSION 3.8)
-
-if(UNIX)
-	set(CMAKE_INSTALL_PREFIX $ENV{HOME}/usr/local/phoebe)
-endif()
+﻿cmake_minimum_required (VERSION 3.8)
 
 project ("phoebe-hpc")
 

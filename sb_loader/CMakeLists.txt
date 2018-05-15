@@ -1,4 +1,9 @@
 
+# Old CMake ITK find+_pachage load
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+# Wrap SBReader shared library in target
 add_library(sb_reader SHARED IMPORTED)
 set_property(TARGET sb_reader PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 if(UNIX)	
@@ -12,7 +17,8 @@ endif()
 add_executable(loader
 	src/sb_loader.cpp
 	src/options.h
-	src/options.cpp)
+	src/options.cpp
+	src/sb_io.h)
 
 target_link_libraries(loader
 	PRIVATE
@@ -23,6 +29,7 @@ target_link_libraries(loader
 		fmt::fmt
 		util
 		sb_reader
+		 ${ITK_LIBRARIES}
 )
 
 if(UNIX)

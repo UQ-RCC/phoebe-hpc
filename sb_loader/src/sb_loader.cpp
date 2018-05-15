@@ -1,21 +1,23 @@
 #include "options.h"
-#include "SBReadFile.h"
+#include "sb_io.h"
+#include "itkVersion.h"
+
+void ConvertSBImages(const Options & options);
 
 int main(int argc, char ** argv)
 {
-	//itk::Version * ver = itk::Version::New();
-	//auto v = ver->GetITKVersion();
-	//fmt::print("Slidebook converter v0.1 (ITK version: {})\n", v);
+	itk::Version * ver = itk::Version::New();
+	auto v = ver->GetITKVersion();
+	fmt::print("Slidebook converter v0.1 (ITK version: {})\n", v);
 	Options options(argc, argv);
 	options.Print();
-	//ConvertSBImages(options);
-	//fmt::print("done\n");
+	ConvertSBImages(options);
+	fmt::print("done\n");
 	EXIT(0);
 }
 
 void ConvertSBImages(const Options & options)
 {
-	/*
 	
 	boost::filesystem::path inputPath(options.data_source);
 
@@ -49,6 +51,7 @@ void ConvertSBImages(const Options & options)
 			continue;
 		}
 
+	/*
 		using ImageFilterType = itk::ImportImageFilter<PixelType, Dimension>;
 		using WriterType = itk::ImageFileWriter<ImageType>;
 		using TIFFIOType = itk::TIFFImageIO;
@@ -102,8 +105,6 @@ void ConvertSBImages(const Options & options)
 			}
 		}
 		delete[] buffer;
-	}
 	*/
+	}
 }
-
-

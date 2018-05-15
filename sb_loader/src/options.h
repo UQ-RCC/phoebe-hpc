@@ -11,7 +11,6 @@
 #include "fmt/ostream.h"
 #include "phoebe_util/util.h"
 
-
 namespace po = boost::program_options;
 
 enum class Protocol {FILE_SYSTEM, OBJECT_STORE};
