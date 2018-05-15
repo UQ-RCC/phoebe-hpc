@@ -14,7 +14,6 @@ if(TARGET sb_reader)
 endif()
 print_target_properties(sb_reader)
 
-
 add_executable(loader
 	src/sb_loader.cpp
 	src/options.h

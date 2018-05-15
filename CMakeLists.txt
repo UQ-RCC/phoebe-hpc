@@ -1,7 +1,10 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
+﻿
 cmake_minimum_required (VERSION 3.8)
+
+if(UNIX)
+	set(CMAKE_INSTALL_PREFIX $ENV{HOME}/usr/local/phoebe)
+endif()
+
 project ("phoebe-hpc")
 
 set(CMAKE_DEBUG_TARGET_PROPERTIES
@@ -19,5 +22,3 @@ find_package(fmt CONFIG REQUIRED)
 add_subdirectory("util")
 add_subdirectory("test")
 add_subdirectory("sb_loader")
-
-#print_cache()
