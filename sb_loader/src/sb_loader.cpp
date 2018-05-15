@@ -1,4 +1,5 @@
 #include "options.h"
+#include "SBReadFile.h"
 
 int main(int argc, char ** argv)
 {
@@ -14,7 +15,8 @@ int main(int argc, char ** argv)
 
 void ConvertSBImages(const Options & options)
 {
-
+	/*
+	
 	boost::filesystem::path inputPath(options.data_source);
 
 	if (!boost::filesystem::exists(inputPath))
@@ -101,7 +103,7 @@ void ConvertSBImages(const Options & options)
 		}
 		delete[] buffer;
 	}
-
+	*/
 }
 
 
