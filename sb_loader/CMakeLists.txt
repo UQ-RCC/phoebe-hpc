@@ -3,10 +3,10 @@
 add_library(sb_reader SHARED IMPORTED)
 set_property(TARGET sb_reader PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 if(UNIX)	
-	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.so)
+	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libSBReadFile.so)
 else()	
-	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/SBReadFile.dll)
-	set_property(TARGET sb_reader PROPERTY IMPORTED_IMPLIB D:/SBReadFile/lib/Win/x64/Release/SBReadFile.lib)
+	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.dll)
+	set_property(TARGET sb_reader PROPERTY IMPORTED_IMPLIB ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.lib)
 endif()
 
 if(TARGET sb_reader)
