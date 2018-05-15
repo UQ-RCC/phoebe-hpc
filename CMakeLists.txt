@@ -2,12 +2,6 @@
 
 project ("phoebe-hpc")
 
-set(CMAKE_DEBUG_TARGET_PROPERTIES
-  INCLUDE_DIRECTORIES
-  COMPILE_DEFINITIONS  
-  PUBLIC_HEADER  
-)
-
 # setup external targets
 include("ImportTargets.cmake")
 create_boost_target()

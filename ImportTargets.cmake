@@ -72,3 +72,11 @@ function(print_target_properties tgt)
         endif()
     endforeach(prop)
 endfunction(print_target_properties)
+
+macro(debug_targets)
+	set(CMAKE_DEBUG_TARGET_PROPERTIES
+		INCLUDE_DIRECTORIES
+		COMPILE_DEFINITIONS  
+		PUBLIC_HEADER  
+	)
+endmacro()
