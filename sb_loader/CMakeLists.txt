@@ -25,3 +25,8 @@ target_link_libraries(loader
 		sb_reader
 )
 
+install(TARGETS loader
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib
+)
