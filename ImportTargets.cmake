@@ -20,7 +20,7 @@ function(create_boost_target)
 	set_property(TARGET boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 
 	foreach(lib ${BOOST_OPTIONS})
-		message(STATUS ${Boost_LIBRARY_DIRS}/${BOOST_LIB_PREFIX}${lib}${BOOST_LIB_SUFFIX})
+		#message(STATUS ${Boost_LIBRARY_DIRS}/${BOOST_LIB_PREFIX}${lib}${BOOST_LIB_SUFFIX})
 		add_library(boost_${lib} STATIC IMPORTED)
 		set_property(TARGET boost_${lib} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 		set_property(TARGET boost_${lib} PROPERTY IMPORTED_LOCATION ${Boost_LIBRARY_DIRS}/${BOOST_LIB_PREFIX}${lib}${BOOST_LIB_SUFFIX})
