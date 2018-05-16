@@ -69,7 +69,7 @@ void ConvertSBImages(const Options & options)
 		image_size[0] = cp.xDim;
 		image_size[1] = cp.yDim;
 		image_size[2] = cp.zDim;
-		ImageFilterType::SizeType image_size_1{ cp.xDim , cp.yDim , cp.zDim };
+		//ImageFilterType::SizeType image_size_1{ cp.xDim , cp.yDim , cp.zDim };
 
 		ImageFilterType::IndexType start;
 		start.Fill(0);
