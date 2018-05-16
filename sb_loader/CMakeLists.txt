@@ -33,7 +33,7 @@ target_link_libraries(loader
 )
 
 if(UNIX)
-	set_property(TARGET loader PROPERTY INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib)
+	set_property(TARGET loader PROPERTY INSTALL_RPATH \$ORIGIN/../lib)
 endif()
 
 install(TARGETS loader
