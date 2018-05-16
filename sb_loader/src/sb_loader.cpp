@@ -1,6 +1,7 @@
 #include "options.h"
 #include "sb_io.h"
 #include "itkVersion.h"
+#include "itkImportImageFilter.h"
 
 void ConvertSBImages(const Options & options);
 
@@ -51,7 +52,6 @@ void ConvertSBImages(const Options & options)
 			continue;
 		}
 
-	/*
 		using ImageFilterType = itk::ImportImageFilter<PixelType, Dimension>;
 		using WriterType = itk::ImageFileWriter<ImageType>;
 		using TIFFIOType = itk::TIFFImageIO;
@@ -105,6 +105,6 @@ void ConvertSBImages(const Options & options)
 			}
 		}
 		delete[] buffer;
-	*/
+	
 	}
 }
