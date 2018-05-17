@@ -5,7 +5,10 @@ project ("phoebe-hpc")
 # setup external targets
 include("ImportTargets.cmake")
 create_boost_target()
+create_prostgres_target()
+
 find_package(fmt CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # Include sub-projects.
 add_subdirectory("util")

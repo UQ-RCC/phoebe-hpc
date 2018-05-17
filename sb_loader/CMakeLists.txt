@@ -1,4 +1,3 @@
-
 # Old CMake ITK find+_pachage load
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
@@ -18,7 +17,8 @@ add_executable(loader
 	src/sb_loader.cpp
 	src/options.h
 	src/options.cpp
-	src/sb_io.h)
+	src/sb_io.h
+)
 
 target_link_libraries(loader
 	PRIVATE

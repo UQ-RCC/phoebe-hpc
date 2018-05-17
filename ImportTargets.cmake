@@ -28,6 +28,26 @@ function(create_boost_target)
 	
 endfunction()
 
+function(create_prostgres_target)
+
+	find_package(PostgreSQL MODULE REQUIRED)
+	message(STATUS "PostgreSQL_INCLUDE_DIRS : ${PostgreSQL_INCLUDE_DIRS}")
+	message(STATUS "PostgreSQL_LIBRARY_DIRS : ${PostgreSQL_LIBRARY_DIRS}")
+	message(STATUS "PostgreSQL_LIBRARIES : ${PostgreSQL_LIBRARIES}")
+
+	if(WIN32)
+		add_library(postgres SHARED IMPORTED)
+		set_property(TARGET postgres PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PostgreSQL_INCLUDE_DIRS})
+		set_property(TARGET postgres PROPERTY IMPORTED_LOCATION ${PostgreSQL_LIBRARY_DIRS}/libpq.dll)
+		set_property(TARGET postgres PROPERTY IMPORTED_IMPLIB ${PostgreSQL_LIBRARY_DIRS}/libpq.lib)
+	else()
+		add_library(postgres STATIC IMPORTED)
+		set_property(TARGET postgres PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PostgreSQL_INCLUDE_DIRS})
+		set_property(TARGET postgres PROPERTY IMPORTED_LOCATION ${PostgreSQL_LIBRARY_DIRS}/libpq.a)
+	endif()
+	
+endfunction()
+
 function(create_itk_target)
 	find_package(ITK REQUIRED)
 	message(STATUS "ITK_DIR : ${ITK_DIR}")
