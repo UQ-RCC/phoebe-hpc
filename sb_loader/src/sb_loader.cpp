@@ -32,6 +32,11 @@ void ConvertSBImages(const Options & options)
 	auto sb_read_file = III_NewSBReadFile(inputPath.make_preferred().string().c_str(), inExceptionMask);
 	auto captures = sb_read_file->GetNumCaptures();
 
+	if (options.verbose)
+	{
+		fmt::print("captures: {}\n", captures);
+	}
+
 	using PixelType = UInt16;
 	const int Dimension = 3;
 	using ImageType = itk::Image<PixelType, Dimension>;
