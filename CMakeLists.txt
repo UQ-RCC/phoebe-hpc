@@ -9,6 +9,8 @@ create_prostgres_target()
 
 find_package(fmt CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+message(STATUS "nlohmann_json_FOUND : ${nlohmann_json_FOUND}")
+message(STATUS "nlohmann_json_DIR : ${nlohmann_json_DIR}")
 
 # Include sub-projects.
 add_subdirectory("util")
