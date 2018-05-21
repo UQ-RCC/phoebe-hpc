@@ -46,7 +46,7 @@ void ConvertSBImages(const Options & options)
 
 	for (int capture_index = 0; capture_index < number_captures; capture_index++)
 	{
-		CaptureDataFrame cp(sb_read_file, capture_index);
+		CaptureDataFrame cp(sb_read_file, capture_index, 0);
 		if (options.verbose)
 		{
 			fmt::print("{}\n", cp.GetHeader(capture_index, cp.position_index));

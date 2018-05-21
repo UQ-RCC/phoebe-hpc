@@ -91,9 +91,10 @@ public:
 		return sb_data;
 	}
 
-	CaptureDataFrame(III::SBReadFile * sb_read_file, CaptureIndex capture_index)
+	CaptureDataFrame(III::SBReadFile * sb_read_file, CaptureIndex capture_index, PositionIndex position_index)
 		: sb_read_file(sb_read_file)
 		, capture_index(capture_index)
+		, position_index(position_index)
 		, number_captures(sb_read_file->GetNumCaptures())
 		, number_channels(sb_read_file->GetNumChannels(capture_index))
 		, number_positions(sb_read_file->GetNumPositions(capture_index))
