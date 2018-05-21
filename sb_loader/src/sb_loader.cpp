@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
 	EXIT(0);
 }
 
-void ConvertSBImages(const Options & options)
+void ConvertSBImages(const Options & options) try
 {
 	
 	boost::filesystem::path inputPath(options.data_source);
@@ -26,12 +26,15 @@ void ConvertSBImages(const Options & options)
 	{
 		fmt::print("{} not found\n", inputPath);
 		EXIT(1);
+	}	
+	
+	auto sb_read_file = III_NewSBReadFile(inputPath.make_preferred().string().c_str(), III::kNoExceptionsMasked);	
+	if (options.verbose)
+	{
+		fmt::print("sb file loaded\n");
 	}
-
-	UInt32 inExceptionMask = 0;
-	auto sb_read_file = III_NewSBReadFile(inputPath.make_preferred().string().c_str(), inExceptionMask);
+	
 	auto captures = sb_read_file->GetNumCaptures();
-
 	if (options.verbose)
 	{
 		fmt::print("captures: {}\n", captures);
@@ -112,4 +115,12 @@ void ConvertSBImages(const Options & options)
 		delete[] buffer;
 	
 	}
+}
+catch (const III::Exception * e)
+{
+	std::cout << "Failed with exception: " << e->GetDescription() << std::endl;
+	std::string inString;
+	std::cout << "Press Enter." << std::endl;
+	std::getline(std::cin, inString);
+	delete e;
 }
