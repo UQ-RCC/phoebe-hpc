@@ -93,6 +93,33 @@ function(print_target_properties tgt)
     endforeach(prop)
 endfunction(print_target_properties)
 
+function(print_interface_properties tgt)
+    if(NOT TARGET ${tgt})
+      message("There is no target named '${tgt}'")
+      return()
+    endif()
+
+    foreach (prop ${CMAKE_PROPERTY_LIST})
+        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
+    # Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i    
+	if(NOT (prop MATCHES "^INTERFACE_" 
+	        OR prop MATCHES "^COMPATIBLE_INTERFACE_"
+			OR prop MATCHES "^MAP_IMPORTED_CONFIG_"
+			OR prop STREQUAL "NAME"
+			OR prop STREQUAL "IMPORTED"
+			OR prop STREQUAL "EXPORT_NAME")
+		)
+        continue()
+    endif()
+        # message ("Checking ${prop}")
+        get_property(propval TARGET ${tgt} PROPERTY ${prop} SET)
+        if (propval)
+            get_target_property(propval ${tgt} ${prop})
+            message ("${tgt} ${prop} = ${propval}")
+        endif()
+    endforeach(prop)
+endfunction(print_interface_properties)
+
 macro(debug_targets)
 	set(CMAKE_DEBUG_TARGET_PROPERTIES
 		INCLUDE_DIRECTORIES
