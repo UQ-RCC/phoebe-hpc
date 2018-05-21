@@ -10,14 +10,14 @@ create_prostgres_target()
 
 find_package(fmt CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-if(TARGET nlohmann_json)
+if(TARGET nlohmann_json::nlohmann_json)
 	message(STATUS "nlohmann_json is target")
 else()
 	message(STATUS "nlohmann_json is NOT target")
 endif()
 message(STATUS "nlohmann_json_FOUND : ${nlohmann_json_FOUND}")
 message(STATUS "nlohmann_json_DIR : ${nlohmann_json_DIR}")
-print_interface_properties(nlohmann_json)
+print_interface_properties(nlohmann_json::nlohmann_json)
 
 # Include sub-projects.
 add_subdirectory("util")

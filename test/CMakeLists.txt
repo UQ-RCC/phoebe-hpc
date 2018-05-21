@@ -7,7 +7,7 @@ target_link_libraries(test
 		boost
 		util
 		fmt::fmt
-		nlohmann_json
+		nlohmann_json::nlohmann_json
 		${ITK_LIBRARIES}
 		postgres
 )
