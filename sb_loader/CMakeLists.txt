@@ -8,7 +8,7 @@ set_property(TARGET sb_reader PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CUR
 if(UNIX)	
 	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libSlideBook6Reader.so)
 	install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/lib/libSlideBook6Reader.so DESTINATION lib)
-else()	
+else()
 	set_property(TARGET sb_reader PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.dll)
 	set_property(TARGET sb_reader PROPERTY IMPORTED_IMPLIB ${CMAKE_CURRENT_SOURCE_DIR}/lib/SBReadFile.lib)
 endif()

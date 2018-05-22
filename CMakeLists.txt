@@ -13,5 +13,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 # Include sub-projects.
 add_subdirectory("util")
-add_subdirectory("test")
+add_subdirectory("database_lib")
 add_subdirectory("sb_loader")
+add_subdirectory("test")

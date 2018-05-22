@@ -10,3 +10,4 @@
 #include "fmt/format.h"
 #include "nlohmann/json.hpp"
 #include <libpq-fe.h>
+#include "database_lib.h"

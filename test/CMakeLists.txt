@@ -10,7 +10,10 @@ target_link_libraries(test
 		nlohmann_json::nlohmann_json
 		${ITK_LIBRARIES}
 		postgres
+		postgreslib
 )
+
+print_target_properties(postgreslib)
 
 install(TARGETS test
 	RUNTIME DESTINATION bin
