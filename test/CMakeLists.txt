@@ -1,10 +1,16 @@
 ﻿find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
-add_executable (test src/test.cpp src/test.h)
+add_executable (test src/test.cpp)
+
 target_link_libraries(test
 	PRIVATE
 		boost
+		boost_thread
+		boost_system
+		boost_date_time
+		boost_regex
+		boost_chrono
 		util
 		fmt::fmt
 		nlohmann_json::nlohmann_json

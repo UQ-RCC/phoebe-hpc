@@ -1,4 +1,11 @@
-﻿#include "test.h"
+﻿#include <iostream>
+#include <boost/version.hpp>
+#include "phoebe_util/util.h"
+#include "itkVersion.h"
+#include "fmt/format.h"
+#include "nlohmann/json.hpp"
+#include <libpq-fe.h>
+#include "database_lib.h"
 
 int main()
 {	
@@ -15,13 +22,17 @@ int main()
 	ConnectParameters cp;
 	cp.host = "phoebe.rcc.uq.edu.au";
 	cp.port = "1338";
-	cp.instance = "phoebe";
+	cp.instance = "phoebe_dev";
 	cp.userName = "phoebeadmin";
 	cp.password = "password";
 
 	DBExecutor executor(cp);
+	
 	auto id = executor.execute_procedure("version");
 	std::cout << "query retured: " << id << std::endl;
+	
+	auto json = executor.execute_procedure_json("version");
+	std::cout << "query retured: " << json.dump(4) << std::endl;
 
 	EXIT(0);
 }

@@ -1,4 +1,5 @@
-add_library(private-lib STATIC 
+
+add_library(private-lib STATIC
 		src/database_io.cpp
 		src/database_io.h
 		src/sql_builder.cpp
@@ -7,7 +8,7 @@ add_library(private-lib STATIC
 )
 
 target_link_libraries(private-lib
-	PRIVATE
+	PUBLIC
 		postgres
 		fmt::fmt
 		nlohmann_json::nlohmann_json

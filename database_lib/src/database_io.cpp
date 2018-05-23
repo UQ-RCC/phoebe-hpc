@@ -68,6 +68,29 @@ int MeshMakerDB::execute_sqb(SqlBuilder & sqb)
 	return returnValue;
 }
 
+
+nlohmann::json MeshMakerDB::execute_sqb_json(SqlBuilder & sqb)
+{
+	nlohmann::json json;
+	PGresult * testRS = PQexecParams(meshConn, sqb.getSQL().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
+	if (checkStmt(testRS, meshConn))
+	{
+		int num_rows = PQntuples(testRS);
+		if (num_rows > 0)
+		{
+			if (!PQgetisnull(testRS, 0, 0))
+			{
+				int num_fields = PQnfields(testRS);
+				for (int i = 0; i < num_fields; i++)
+				{
+					json[PQfname(testRS, i)] = PQgetvalue(testRS, 0, i);
+				}				
+			}
+		}
+	}
+	return json;
+}
+
 bool MeshMakerDB::checkStmt(PGresult * result, PGconn * conn)
 {
 	if (PQresultStatus(result) != PGRES_TUPLES_OK)

@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "sql_builder.h"
+#include "nlohmann/json.hpp"
 
 struct ConnectParameters
 {
@@ -28,10 +29,20 @@ public:
 		build_sql(sqb, p...);		
 		return execute_procedure(sqb);
 	}
+
+	template <typename... T>
+	nlohmann::json execute_procedure_json(const std::string & procedure, const T &... p)
+	{
+		SqlBuilder sqb(procedure);
+		build_sql(sqb, p...);
+		return execute_procedure_json(sqb);
+	}
+
 private:
 	struct DBExecutorImpl;
 	std::unique_ptr<DBExecutorImpl> impl;
 	int execute_procedure(SqlBuilder & sqb);
+	nlohmann::json execute_procedure_json(SqlBuilder & sqb);
 	SqlBuilder & build_sql(SqlBuilder & sqb)
 	{
 		return sqb;
