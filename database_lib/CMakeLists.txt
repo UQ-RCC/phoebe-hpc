@@ -2,6 +2,7 @@
 add_library(private-lib STATIC
 		src/database_io.cpp
 		src/database_io.h
+		src/oid.h
 		src/sql_builder.cpp
 		src/sql_builder.h
 		src/database_lib.h

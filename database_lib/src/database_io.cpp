@@ -84,6 +84,7 @@ nlohmann::json MeshMakerDB::execute_sqb_json(SqlBuilder & sqb)
 				for (int i = 0; i < num_fields; i++)
 				{
 					json[PQfname(testRS, i)] = PQgetvalue(testRS, 0, i);
+					json["type"] = PQftype(testRS, i);
 				}				
 			}
 		}
