@@ -21,7 +21,8 @@ class DBExecutor
 {
 public:
 	DBExecutor(const ConnectParameters & cp);
-	~DBExecutor();	
+	~DBExecutor();
+
 	template <typename... T>
 	int execute_procedure(const std::string & procedure, const T &... p)
 	{

@@ -28,11 +28,40 @@ private:
 	PGconn * frameConn;	
 	boost::mutex meshConnMtx;
 	boost::mutex frameConnMtx;
+	SqlBuilder & build_sql(SqlBuilder & sqb)
+	{
+		return sqb;
+	}
+	template<typename T, typename... Args>
+	SqlBuilder & build_sql(SqlBuilder & sqb, const T & p, const Args &... rest)
+	{
+		sqb << p;
+		return build_sql(sqb, rest...);
+	}
 public:
 	MeshMakerDB(const ConnectParameters & params);
 	~MeshMakerDB();
-	void test_connection();	
+	void test_connection();		
+	int execute();
+
 	int execute_sqb(SqlBuilder & sqb);
+
+	template <typename... T>
+	int execute_procedure(const std::string & procedure, const T &... p)
+	{
+		SqlBuilder sqb(procedure);
+		build_sql(sqb, p...);
+		return execute_sqb(sqb);
+	}
+
 	nlohmann::json execute_sqb_json(SqlBuilder & sqb);
-	int execute();	
+
+	template <typename... T>
+	nlohmann::json execute_procedure_json(const std::string & procedure, const T &... p)
+	{
+		SqlBuilder sqb(procedure);
+		build_sql(sqb, p...);
+		return execute_sqb_json(sqb);
+	}
+
 };

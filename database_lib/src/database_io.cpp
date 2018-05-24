@@ -68,7 +68,6 @@ int MeshMakerDB::execute_sqb(SqlBuilder & sqb)
 	return returnValue;
 }
 
-
 nlohmann::json MeshMakerDB::execute_sqb_json(SqlBuilder & sqb)
 {
 	nlohmann::json json;

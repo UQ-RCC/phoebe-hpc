@@ -1,5 +1,5 @@
 
-add_library(private-lib STATIC
+add_library(postgreslib STATIC
 		src/database_io.cpp
 		src/database_io.h
 		src/oid.h
@@ -8,7 +8,9 @@ add_library(private-lib STATIC
 		src/database_lib.h
 )
 
-target_link_libraries(private-lib
+target_include_directories(postgreslib PUBLIC src)
+
+target_link_libraries(postgreslib
 	PUBLIC
 		postgres
 		fmt::fmt
@@ -18,17 +20,6 @@ target_link_libraries(private-lib
 		boost_system
 )
 
-add_library(postgreslib STATIC
-	src/database_lib.cpp
-	src/database_lib.h
-)
-
-target_link_libraries(postgreslib PRIVATE private-lib)
-
 if(UINX)
 	target_link_libraries(postgreslib PRIVATE pthread)
 endif()
-
-target_include_directories(postgreslib PUBLIC src)
-
-# set_target_properties(postgreslib PROPERTIES PUBLIC_HEADER src/database_lib.h)

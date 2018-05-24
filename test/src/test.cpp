@@ -5,7 +5,7 @@
 #include "fmt/format.h"
 #include "nlohmann/json.hpp"
 #include <libpq-fe.h>
-#include "database_lib.h"
+#include "database_io.h"
 
 int main()
 {	
@@ -26,13 +26,9 @@ int main()
 	cp.userName = "phoebeadmin";
 	cp.password = "password";
 
-	DBExecutor executor(cp);
-	
-	auto id = executor.execute_procedure("version");
+	MeshMakerDB db(cp);
+	auto id = db.execute_procedure_json("version");
 	std::cout << "query retured: " << id << std::endl;
 	
-	auto json = executor.execute_procedure_json("version");
-	std::cout << "query retured: " << json.dump(4) << std::endl;
-
 	EXIT(0);
 }
