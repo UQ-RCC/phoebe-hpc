@@ -89,6 +89,6 @@ int SqlBuilder::mhtonl(int p)
 int htonl(const uint32_t net)
 {
 	uint8_t data[4] = {};
-	memcpy(&data, &net, sizeof(data));
+	std::memcpy(&data, &net, sizeof(data));
 	return 0;
 }

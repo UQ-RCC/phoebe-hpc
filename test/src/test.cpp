@@ -70,8 +70,6 @@ int main()
 		fmt::print("optional : {} {} {}\n", f0, f1, f2);
 	}
 
-	
-
 
 	PhoebeDatabase db(cp);
 	auto id = db.execute_procedure_json("version");
