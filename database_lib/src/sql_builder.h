@@ -14,7 +14,7 @@ public:
 	SqlBuilder& operator<<(const std::string & param);
 	SqlBuilder& operator<<(const int param);
 	SqlBuilder& operator<<(const double param);
-	std::string getSQL();
+	std::string get_sql();
 	size_t * GetParamLength();
 	int * GetParamFormat();
 	const char ** GetParameter();

@@ -7,6 +7,7 @@
 #include <libpq-fe.h>
 #include "database_io.h"
 #include <optional>
+#include <cstdlib>
 
 std::tuple<int> make_tuple(int i)
 {
@@ -35,9 +36,30 @@ std::tuple<T, Arg, Args...> parse()
 	return std::tuple_cat(make_tuple((T) (sizeof...(Args) + 2)), parse<Arg, Args...>());
 }
 
+SqlBuilder & build_sql(SqlBuilder & sqb)
+{
+	return sqb;
+}
+template<typename T, typename... Args>
+SqlBuilder & build_sql(SqlBuilder & sqb, const T & p, const Args &... rest)
+{
+	sqb << p;
+	return build_sql(sqb, rest...);
+}
+
+template<typename... R, typename... P>
+std::optional<std::tuple<R...>> execute_procedure(const std::string & procedure, const P &... p)
+{	
+	SqlBuilder sqb(procedure);
+	build_sql(sqb, p...);	
+	fmt::print("built sql : {}\n", sqb.get_sql());
+	return std::nullopt;
+}
 
 int main()
-{	
+{
+
+
 	fmt::print("Testing Phoebe components.\n\n");
 	fmt::print("Boost lib version: {}", BOOST_LIB_VERSION);
 	itk::Version * ver = itk::Version::New();
@@ -55,30 +77,11 @@ int main()
 	cp.userName = "phoebeadmin";
 	cp.password = "password";
 
-	std::optional<std::tuple<int, int, int>> o;
-
-	if (!o)
-	{
-		fmt::print("nothing in o\n");
-	}
-
-	o.emplace(std::make_tuple(1, 2, 3));
-
-	if (o)
-	{
-		auto[f0, f1, f2] = *o;		
-		fmt::print("optional : {} {} {}\n", f0, f1, f2);
-	}
-	
 	PhoebeDatabase db(cp);
 	auto id = db.execute_procedure_json("version");
 	std::cout << "query retured: " << id << std::endl;
 
-	auto[a, b, c] = parse<int, float, double>();
-	fmt::print("{} {} {}\n", a, b, c);
-
-	auto [f] = parse<float>();
-	fmt::print("{}\n", f);
+	db.execute_statement<int, int, int>("select * from version()");
 
 
 	EXIT(0);

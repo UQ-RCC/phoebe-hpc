@@ -56,7 +56,7 @@ void PhoebeDatabase::test_connection()
 int PhoebeDatabase::execute_sqb(SqlBuilder & sqb)
 {	
 	int returnValue = -1;
-	PGresult * testRS = PQexecParams(meshConn, sqb.getSQL().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *) sqb.GetParamLength(), sqb.GetParamFormat(), 0);
+	PGresult * testRS = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *) sqb.GetParamLength(), sqb.GetParamFormat(), 0);
 	if (checkStmt(testRS, meshConn))
 	{
 		if (!PQgetisnull(testRS, 0, 0))
@@ -71,7 +71,7 @@ int PhoebeDatabase::execute_sqb(SqlBuilder & sqb)
 nlohmann::json PhoebeDatabase::execute_sqb_json(SqlBuilder & sqb)
 {
 	nlohmann::json json;
-	PGresult * testRS = PQexecParams(meshConn, sqb.getSQL().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
+	PGresult * testRS = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
 	if (checkStmt(testRS, meshConn))
 	{
 		int num_rows = PQntuples(testRS);
@@ -88,6 +88,7 @@ nlohmann::json PhoebeDatabase::execute_sqb_json(SqlBuilder & sqb)
 			}
 		}
 	}
+	PQclear(testRS);
 	return json;
 }
 
@@ -111,3 +112,10 @@ int PhoebeDatabase::execute()
 	fmt::print("from derived class...\n");
 	return 0;
 }
+
+/*
+PGresult * PhoebeDatabase::get_result_set(std::string statement)
+{
+	return PQexec(meshConn, statement.c_str());
+}
+*/

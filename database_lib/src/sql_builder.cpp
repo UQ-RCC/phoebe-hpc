@@ -33,13 +33,12 @@ SqlBuilder& SqlBuilder::operator<<(const double param)
 	return *this;
 }
 
-std::string SqlBuilder::getSQL()
+std::string SqlBuilder::get_sql()
 {
 	std::string sql = "select * from ";
 	sql.append(function).append("(");
 	for (int i = 0; i < (NumParameters() - 1); i++)
-	{	
-		std::cin.get();
+	{			
 		sql.append(parameterDef[i]);
 		sql.append(", ");
 	}
