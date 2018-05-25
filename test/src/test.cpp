@@ -69,8 +69,7 @@ int main()
 		auto[f0, f1, f2] = *o;		
 		fmt::print("optional : {} {} {}\n", f0, f1, f2);
 	}
-
-
+	
 	PhoebeDatabase db(cp);
 	auto id = db.execute_procedure_json("version");
 	std::cout << "query retured: " << id << std::endl;

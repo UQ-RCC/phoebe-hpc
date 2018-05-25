@@ -8,6 +8,7 @@ add_library(postgreslib STATIC
 )
 
 target_include_directories(postgreslib PUBLIC src)
+target_compile_features(postgreslib PUBLIC cxx_std_17)
 
 target_link_libraries(postgreslib
 	PUBLIC

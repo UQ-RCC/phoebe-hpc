@@ -21,8 +21,6 @@ target_link_libraries(test
 		postgreslib
 )
 
-# print_target_properties(postgreslib)
-
 install(TARGETS test
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
