@@ -7,22 +7,21 @@
 #include <boost/thread.hpp>
 #include <nlohmann/json.hpp>
 #include <fmt/printf.h>
-#include "database_lib.h"
+#include "sql_builder.h"
 
-#define DATA(x)   extern int no_such_variable
-#define DESCR(x)  extern int no_such_variable
-#define SHDESCR(x) extern int no_such_variable
+struct ConnectParameters
+{
+	std::string host;
+	std::string port;
+	std::string instance;
+	std::string userName;
+	std::string password;
+};
 
-DATA(insert OID = 16 (bool	   PGNSP PGUID	1 t b B t t \054 0	 0 1000 boolin boolout boolrecv boolsend - --c p f 0 - 1 0 0 _null_ _null_ _null_));
-DESCR("boolean, 'true'/'false'");
-#define BOOLOID			16
-
-
-
-class MeshMakerDB
+class PhoebeDatabase
 {
 private:
-	MeshMakerDB();
+	PhoebeDatabase();
 	bool checkStmt(PGresult * result, PGconn * conn);
 	PGconn * meshConn;
 	PGconn * frameConn;	
@@ -39,8 +38,8 @@ private:
 		return build_sql(sqb, rest...);
 	}
 public:
-	MeshMakerDB(const ConnectParameters & params);
-	~MeshMakerDB();
+	PhoebeDatabase(const ConnectParameters & params);
+	~PhoebeDatabase();
 	void test_connection();		
 	int execute();
 

@@ -4,8 +4,7 @@ add_library(postgreslib STATIC
 		src/database_io.h
 		src/oid.h
 		src/sql_builder.cpp
-		src/sql_builder.h
-		src/database_lib.h
+		src/sql_builder.h		
 )
 
 target_include_directories(postgreslib PUBLIC src)

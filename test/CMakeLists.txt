@@ -3,6 +3,8 @@ include(${ITK_USE_FILE})
 
 add_executable (test src/test.cpp)
 
+target_compile_features(test PRIVATE cxx_std_17)
+
 target_link_libraries(test
 	PRIVATE
 		boost
@@ -19,7 +21,7 @@ target_link_libraries(test
 		postgreslib
 )
 
-print_target_properties(postgreslib)
+# print_target_properties(postgreslib)
 
 install(TARGETS test
 	RUNTIME DESTINATION bin

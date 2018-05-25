@@ -1,6 +1,6 @@
 #include "database_io.h"
 
-MeshMakerDB::MeshMakerDB(const ConnectParameters & params)
+PhoebeDatabase::PhoebeDatabase(const ConnectParameters & params)
 {
 	
 	meshConn = PQsetdbLogin(
@@ -28,13 +28,13 @@ MeshMakerDB::MeshMakerDB(const ConnectParameters & params)
 		params.password.c_str());
 }
 
-MeshMakerDB::~MeshMakerDB()
+PhoebeDatabase::~PhoebeDatabase()
 {
 	PQfinish(meshConn);
 	PQfinish(frameConn);
 }
 
-void MeshMakerDB::test_connection()
+void PhoebeDatabase::test_connection()
 {
 	boost::lock_guard<boost::mutex> lock(meshConnMtx);
 	fmt::print("testing");
@@ -53,7 +53,7 @@ void MeshMakerDB::test_connection()
 	PQclear(testRS);
 }
 
-int MeshMakerDB::execute_sqb(SqlBuilder & sqb)
+int PhoebeDatabase::execute_sqb(SqlBuilder & sqb)
 {	
 	int returnValue = -1;
 	PGresult * testRS = PQexecParams(meshConn, sqb.getSQL().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *) sqb.GetParamLength(), sqb.GetParamFormat(), 0);
@@ -68,7 +68,7 @@ int MeshMakerDB::execute_sqb(SqlBuilder & sqb)
 	return returnValue;
 }
 
-nlohmann::json MeshMakerDB::execute_sqb_json(SqlBuilder & sqb)
+nlohmann::json PhoebeDatabase::execute_sqb_json(SqlBuilder & sqb)
 {
 	nlohmann::json json;
 	PGresult * testRS = PQexecParams(meshConn, sqb.getSQL().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
@@ -91,7 +91,7 @@ nlohmann::json MeshMakerDB::execute_sqb_json(SqlBuilder & sqb)
 	return json;
 }
 
-bool MeshMakerDB::checkStmt(PGresult * result, PGconn * conn)
+bool PhoebeDatabase::checkStmt(PGresult * result, PGconn * conn)
 {
 	if (PQresultStatus(result) != PGRES_TUPLES_OK)
 	{
@@ -106,7 +106,7 @@ bool MeshMakerDB::checkStmt(PGresult * result, PGconn * conn)
 	return true;
 }
 
-int MeshMakerDB::execute()
+int PhoebeDatabase::execute()
 {
 	fmt::print("from derived class...\n");
 	return 0;
