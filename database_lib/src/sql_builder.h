@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <stdint.h>
+#include <cstring>
 
 class SqlBuilder
 {
