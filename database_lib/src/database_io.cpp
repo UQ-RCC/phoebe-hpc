@@ -1,6 +1,6 @@
 #include "database_io.h"
 
-PhoebeDatabase::PhoebeDatabase(const ConnectParameters & params)
+phoebe_database::phoebe_database(const connect_parameters & params)
 {
 	
 	meshConn = PQsetdbLogin(
@@ -28,13 +28,13 @@ PhoebeDatabase::PhoebeDatabase(const ConnectParameters & params)
 		params.password.c_str());
 }
 
-PhoebeDatabase::~PhoebeDatabase()
+phoebe_database::~phoebe_database()
 {
 	PQfinish(meshConn);
 	PQfinish(frameConn);
 }
 
-void PhoebeDatabase::test_connection()
+void phoebe_database::test_connection()
 {
 	boost::lock_guard<boost::mutex> lock(meshConnMtx);
 	fmt::print("testing");
@@ -53,7 +53,7 @@ void PhoebeDatabase::test_connection()
 	PQclear(testRS);
 }
 
-int PhoebeDatabase::execute_sqb(SqlBuilder & sqb)
+int phoebe_database::execute_sqb(SqlBuilder & sqb)
 {	
 	int returnValue = -1;
 	PGresult * testRS = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *) sqb.GetParamLength(), sqb.GetParamFormat(), 0);
@@ -68,7 +68,7 @@ int PhoebeDatabase::execute_sqb(SqlBuilder & sqb)
 	return returnValue;
 }
 
-nlohmann::json PhoebeDatabase::execute_sqb_json(SqlBuilder & sqb)
+nlohmann::json phoebe_database::execute_sqb_json(SqlBuilder & sqb)
 {
 	nlohmann::json json;
 	PGresult * testRS = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
@@ -92,7 +92,7 @@ nlohmann::json PhoebeDatabase::execute_sqb_json(SqlBuilder & sqb)
 	return json;
 }
 
-bool PhoebeDatabase::checkStmt(PGresult * result, PGconn * conn)
+bool phoebe_database::checkStmt(PGresult * result, PGconn * conn)
 {
 	if (PQresultStatus(result) != PGRES_TUPLES_OK)
 	{
@@ -107,14 +107,14 @@ bool PhoebeDatabase::checkStmt(PGresult * result, PGconn * conn)
 	return true;
 }
 
-int PhoebeDatabase::execute()
+int phoebe_database::execute()
 {
 	fmt::print("from derived class...\n");
 	return 0;
 }
 
 /*
-PGresult * PhoebeDatabase::get_result_set(std::string statement)
+PGresult * phoebe_database::get_result_set(std::string statement)
 {
 	return PQexec(meshConn, statement.c_str());
 }

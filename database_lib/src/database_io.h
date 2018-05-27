@@ -9,7 +9,7 @@
 #include <fmt/printf.h>
 #include "sql_builder.h"
 
-struct ConnectParameters
+struct connect_parameters
 {
 	std::string host;
 	std::string port;
@@ -18,10 +18,12 @@ struct ConnectParameters
 	std::string password;
 };
 
-class PhoebeDatabase
+//class result_set
+
+class phoebe_database
 {
 private:
-	PhoebeDatabase();
+	phoebe_database();
 	bool checkStmt(PGresult * result, PGconn * conn);
 	PGconn * meshConn;
 	PGconn * frameConn;	
@@ -46,8 +48,8 @@ private:
 	
 
 public:
-	PhoebeDatabase(const ConnectParameters & params);
-	~PhoebeDatabase();
+	phoebe_database(const connect_parameters & params);
+	~phoebe_database();
 	void test_connection();		
 	int execute();
 
@@ -74,6 +76,7 @@ public:
 
 	// new stuff
 
+
 	template<typename... R>
 	std::vector<std::tuple<R...>> execute_statement(std::string statement)
 	{
@@ -84,14 +87,11 @@ public:
 		int num_output_fields = sizeof...(R);
 		if (num_output_fields > num_fields)
 		{
-			throw std::runtime_error(fmt::format("too many output fields {} bound to query with {} return fields", num_output_fields, num_fields));
+			throw std::runtime_error(fmt::format("too many output fields ({}) bound to query with {} return field(s).", num_output_fields, num_fields));
 		}
-		fmt::print("got {} rows {} in fields {} out fields\n", num_rows, num_fields, num_output_fields);
-
+		
 		PQclear(result);
 		return result_vector;
 	}
-
-
 
 };
