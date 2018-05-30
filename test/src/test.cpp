@@ -79,38 +79,12 @@ int main()
 	cp.userName = "phoebeadmin";
 	cp.password = "password";
 
+	/*
 	phoebe_database db(cp);
 	auto id = db.execute_procedure_json("version");
-	std::cout << "query retured: " << id << std::endl;
-
-	db.execute_statement<int>("select * from version()");
-
-	auto a = parse<int>();
-	std::tuple<> empty;
-
-	int foo[] = { 1,2,3,4,5 };
-	int & second = foo[1];
-	second = 121;
-	fmt::print("{}\n", second);
-	fmt::print("boolean {}\n", sizeof(bool));
-	fmt::print("double {}\n", sizeof(double));
-	auto d = [](double v) -> double {return v; };
-	auto dd = d(20.2);
-	fmt::print("lambda {}\n", [](){return 123.456;}());
-
-	std::string tqbf = "the quick brown fox";
-	std::basic_string_view bsv(tqbf.c_str());
-		
-	auto qq = std::make_tuple(10, bsv.data());
-	auto[q1, q2] = qq;
-
-	fmt::print("bsv {} {}\n", q1, q2);
-
-	auto fchar = tqbf.data();
-	*fchar = 'X';
-
-	fmt::print("bsv {} {}\n", q1, q2);
-
-
+	auto [folder_id] = db.execute_proc<int>("insert_folder", "the/quick/black/fox/balh/skdhjsdf")[0];
+	fmt::print("folder id: {}\n", folder_id);
+	*/
+	
 	EXIT(0);
 }

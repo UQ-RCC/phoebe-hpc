@@ -68,6 +68,7 @@ int phoebe_database::execute_sqb(SqlBuilder & sqb)
 	return returnValue;
 }
 
+// TODO evaluate and decide what to do with json output...
 nlohmann::json phoebe_database::execute_sqb_json(SqlBuilder & sqb)
 {
 	nlohmann::json json;
@@ -106,16 +107,3 @@ bool phoebe_database::checkStmt(PGresult * result, PGconn * conn)
 	}
 	return true;
 }
-
-int phoebe_database::execute()
-{
-	fmt::print("from derived class...\n");
-	return 0;
-}
-
-/*
-PGresult * phoebe_database::get_result_set(std::string statement)
-{
-	return PQexec(meshConn, statement.c_str());
-}
-*/
