@@ -26,9 +26,12 @@ target_link_libraries(loader
 		boost_system
 		boost_filesystem
 		boost_program_options
+		boost_date_time
+		boost_chrono
 		fmt::fmt
 		util
 		sb_reader
+		postgreslib
 		 ${ITK_LIBRARIES}
 )
 

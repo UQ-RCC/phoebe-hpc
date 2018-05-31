@@ -10,6 +10,7 @@
 #include <fmt/printf.h>
 #include <tuple>
 #include "sql_builder.h"
+#include "endian_util.h"
 
 struct connect_parameters
 {
@@ -20,69 +21,6 @@ struct connect_parameters
 	std::string password;
 };
 
-inline uint32_t ntohl(uint32_t const net)
-{
-	uint8_t * p_net = (uint8_t *) &net;
-	return ((uint32_t)p_net[0] << 24)
-		| ((uint32_t)p_net[1] << 16)
-		| ((uint32_t)p_net[2] << 8)
-		| ((uint32_t)p_net[3] << 0);
-}
-
-inline uint32_t htonl(uint32_t const host)
-{
-	uint32_t net;
-	uint8_t * p_net = (uint8_t *) &net;
-	p_net[0] = (uint8_t)(host >> 24);
-	p_net[1] = (uint8_t)(host >> 16);
-	p_net[2] = (uint8_t)(host >> 8);
-	p_net[3] = (uint8_t)(host >> 0);
-	return net;
-}
-
-inline uint64_t ntohll(uint64_t const net)
-{
-	uint8_t * p_net = (uint8_t *) &net;
-	return ((uint64_t)p_net[0] << 56)
-		| ((uint64_t)p_net[1] << 48)
-		| ((uint64_t)p_net[2] << 40)
-		| ((uint64_t)p_net[3] << 32)
-		| ((uint64_t)p_net[4] << 24)
-		| ((uint64_t)p_net[5] << 16)
-		| ((uint64_t)p_net[6] << 8)
-		| ((uint64_t)p_net[7] << 0);	
-}
-
-/*
-inline uint64_t htonll(uint64_t const host)
-{
-	uint64_t net;
-	uint32_t * p_net = (uint32_t *) &net;
-	p_net[0] = (uint32_t)(host >> 32);
-	p_net[1] = (uint32_t)(host >> 0);
-	return net;
-}
-*/
-
-inline std::string get_hex(uint64_t i)
-{
-	return fmt::format("{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}",
-		(uint8_t)(i >> 56),
-		(uint8_t)(i >> 48),
-		(uint8_t)(i >> 40),
-		(uint8_t)(i >> 32),
-		(uint8_t)(i >> 24),
-		(uint8_t)(i >> 16),
-		(uint8_t)(i >> 8),
-		(uint8_t)i
-	);
-}
-
-inline std::string get_hex64(uint8_t * i)
-{
-	return fmt::format("{:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x} {:02x}",
-		i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]);
-}
 
 template<typename... R>
 class result_set
@@ -244,7 +182,23 @@ public:
 	{
 		SqlBuilder sqb(procedure);
 		build_sql(sqb, t...);
-		PGresult * result_ptr = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), (int *)sqb.GetParamLength(), sqb.GetParamFormat(), 0);
+		int np = sqb.NumParameters();
+		fmt::print("bound {} parameters\n", np);
+
+		/*
+		for (int i = 0; i < np; i++)
+		{
+			int ip = 0;
+			if (sqb.GetParamLength()[i] == 4)
+			{
+				ip = (int *) (sqb.GetParameter() + i)
+			}
+			fmt::print("{:02}: {:02} {}\n", i, sqb.GetParamLength()[i], ip);
+		}
+		*/
+
+		PGresult * result_ptr = PQexecParams(meshConn, sqb.get_sql().c_str(), sqb.NumParameters(), NULL, sqb.GetParameter(), sqb.GetParamLength(), sqb.GetParamFormat(), 0);
+		checkStmt(result_ptr, meshConn);
 		return result_set<P...>(result_ptr);
 	}
 

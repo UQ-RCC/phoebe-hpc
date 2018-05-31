@@ -128,8 +128,8 @@ public:
 
 	std::string GetHeader(int capture_index, int position_index)
 	{
-		return fmt::format("capture {} of {} : position {} of {}, time points: {}, channels: {}",
-			capture_index + 1, number_captures, position_index + 1, number_positions,
+		return fmt::format("capture {} of {} {} : position {} of {}, time points: {}, channels: {}",
+			capture_index + 1, number_captures, image_name, position_index + 1, number_positions,
 			number_timepoints, number_channels);
 	}
 

@@ -11,11 +11,16 @@ Options::Options(int argc, char ** argv)
 		("destination,d", po::value<std::string>(&data_destination)->default_value(boost::filesystem::current_path().string()), "root directory or object store location for destination data (same as source when not provided)")
 		("debug", po::bool_switch(&debug)->default_value(false), "debug mode")
 		("verbose,v", po::bool_switch(&verbose)->default_value(false), "print progress status")
+		("database", po::bool_switch(&debug)->default_value(false), "upload to database")
 		("max-time", po::value<int>(&max_time), "max time point")
+		("host", po::value<std::string>(&db_parameters.host), "database host")
+		("port", po::value<std::string>(&db_parameters.port), "database port")
+		("instance", po::value<std::string>(&db_parameters.instance), "database instance")
+		("user", po::value<std::string>(&db_parameters.userName), "database user")
+		("password", po::value<std::string>(&db_parameters.password), "database user password")
 	;
 	try
-	{
-		
+	{	
 		po::store(po::parse_command_line(argc, argv, desc), vm);
 	}
 	catch (po::error e)

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <stdint.h>
 #include <cstring>
+#include "endian_util.h"
+#include "fmt/printf.h"
 
 class SqlBuilder
 {
@@ -14,21 +16,21 @@ public:
 	SqlBuilder& operator<<(const std::string & param);
 	SqlBuilder& operator<<(const int param);
 	SqlBuilder& operator<<(const double param);
+	SqlBuilder& operator<<(const float param);
 	std::string get_sql();
-	size_t * GetParamLength();
+	int * GetParamLength();
 	int * GetParamFormat();
 	const char ** GetParameter();
 	int NumParameters();
-private:
-	void to_nbo(const double in, double * out);
+private:	
 	std::string function;
-	std::vector<size_t> length;
+	std::vector<int> length;
 	std::vector<int> format;
 	std::vector<const char *> parameter;
 	std::vector<std::string> parameterDef;
 	// store a copies of data so that we can push pointers.
 	std::deque<int> intKeeper;
+	std::deque<float> floatKeeper;
 	std::deque<double> doubleKeeper;
 	std::deque<std::string> stringKeeper;
-	int mhtonl(int p);
 };

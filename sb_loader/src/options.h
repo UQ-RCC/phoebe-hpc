@@ -6,10 +6,10 @@
 #include <algorithm>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
-//#include <boost/thread.hpp>
 #include "fmt/format.h"
 #include "fmt/ostream.h"
 #include "phoebe_util/util.h"
+#include "database_io.h"
 
 namespace po = boost::program_options;
 
@@ -20,7 +20,8 @@ class Options
 {
 public:
 	bool help;
-	bool debug;	
+	bool debug;
+	bool database;
 	std::string data_source;
 	std::string data_destination;
 	Protocol source_protocol;
@@ -29,6 +30,7 @@ public:
 	std::string configFile;	
 	int max_time;
 	bool verbose;
+	connect_parameters db_parameters;
 	Options(int argc, char ** argv);
 	void Print();
 private:

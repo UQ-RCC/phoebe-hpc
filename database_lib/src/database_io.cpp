@@ -30,6 +30,7 @@ phoebe_database::phoebe_database(const connect_parameters & params)
 
 phoebe_database::~phoebe_database()
 {
+	fmt::print("datatbase disconnected\n");
 	PQfinish(meshConn);
 	PQfinish(frameConn);
 }

@@ -20,15 +20,15 @@ int main(int argc, char ** argv)
 void ConvertSBImages(const Options & options) try
 {
 	
-	boost::filesystem::path inputPath(options.data_source);
+	boost::filesystem::path input_path(options.data_source);
 
-	if (!boost::filesystem::exists(inputPath))
+	if (!boost::filesystem::exists(input_path))
 	{
-		fmt::print("{} not found\n", inputPath);
+		fmt::print("{} not found\n", input_path);
 		EXIT(1);
 	}	
 	
-	auto sb_read_file = III_NewSBReadFile(inputPath.make_preferred().string().c_str(), III::kNoExceptionsMasked);	
+	auto sb_read_file = III_NewSBReadFile(input_path.make_preferred().string().c_str(), III::kNoExceptionsMasked);	
 	if (options.verbose)
 	{
 		fmt::print("sb file loaded\n");
@@ -47,17 +47,20 @@ void ConvertSBImages(const Options & options) try
 	SB_IO<ImageType> sb_io(options);
 	CaptureIndex number_captures = sb_read_file->GetNumCaptures();
 
+	phoebe_database * db;
+
+	if (options.destination_protocol == Protocol::OBJECT_STORE)
+	{
+		db = new phoebe_database(options.db_parameters);
+	}
+	
 	for (int capture_index = 0; capture_index < number_captures; capture_index++)
 	{
+
 		CaptureDataFrame cp(sb_read_file, capture_index, 0);
 		if (options.verbose)
 		{
 			fmt::print("{}\n", cp.GetHeader(capture_index, cp.position_index));
-		}
-
-		if (options.debug)
-		{
-			continue;
 		}
 
 		using ImageFilterType = itk::ImportImageFilter<PixelType, Dimension>;
@@ -92,6 +95,43 @@ void ConvertSBImages(const Options & options) try
 		imageImport->SetSpacing(spacing);
 		imageImport->SetImportPointer(buffer, bufferSize, false);
 
+		std::string experiment_name;
+		std::string folder_name;
+
+		if (options.destination_protocol == Protocol::OBJECT_STORE)
+		{
+			if (cp.number_captures == 1)
+			{
+				folder_name.clear();
+				folder_name.assign("folder");
+				experiment_name = input_path.stem().string();			
+			}
+			else
+			{
+				folder_name = input_path.stem().string();
+				experiment_name = cp.image_name;			
+			}
+
+			db->execute_proc("q_log", "test_client", "{}");
+						
+			auto [experiment_id] = db->execute_proc<int>("insert_experiment",
+				experiment_name,
+				folder_name,
+				cp.xDim,
+				cp.yDim,
+				cp.zDim,
+				cp.number_channels,
+				cp.number_timepoints,
+				cp.voxel_size[0],
+				cp.voxel_size[1],
+				cp.voxel_size[2])[0];
+
+			fmt::print("exp: '{}', folder: '{}', id: {} [{} {} {}]\n", 
+				experiment_name, folder_name, experiment_id,
+				cp.voxel_size[0], cp.voxel_size[1], cp.voxel_size[2]);
+			
+		}
+
 		int cappedTime = cp.number_timepoints;
 		if (options.max_time > -1)
 		{
@@ -108,13 +148,26 @@ void ConvertSBImages(const Options & options) try
 				{
 					sb_read_file->ReadImagePlaneBuf(buffer + (z * planeSize), capture_index, 0, timepoint_index, z, c);
 				}
-				sb_io.writeFile(cp, "", "tiff", false, imageImport->GetOutput());
-				//sb_io.writeFile("_deflate", "tiff", true, imageImport->GetOutput());
+				if (!options.debug)
+				{
+					sb_io.writeFile(cp, "", "tiff", false, imageImport->GetOutput());
+				}				
+			}
+			if (options.verbose)
+			{
+				fmt::print("processed timepoint {}\n", cp.GetTimepointIndexString());
+				if (options.destination_protocol == Protocol::OBJECT_STORE)
+				{
+					fmt::print("send to database\n");
+				}
 			}
 		}
 		delete[] buffer;
 	
 	}
+
+	delete db;
+
 }
 catch (const III::Exception * e)
 {

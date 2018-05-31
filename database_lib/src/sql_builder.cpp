@@ -16,8 +16,12 @@ SqlBuilder& SqlBuilder::operator<<(const int param)
 {
 	length.push_back(sizeof(int));
 	format.push_back(1);
-	intKeeper.push_back(mhtonl(param));
+	int tmp_i;
+	htoni(&param, &tmp_i);
+	intKeeper.push_back(tmp_i);	
 	parameter.push_back((char *)&intKeeper.back());
+	int tmp = *(&intKeeper.back());
+	fmt::print("<< int : {} {} {}\n", param, intKeeper.back(), ntohl(intKeeper.back()));
 	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::integer"));
 	return *this;
 }
@@ -26,10 +30,25 @@ SqlBuilder& SqlBuilder::operator<<(const double param)
 {
 	length.push_back(sizeof(double));
 	format.push_back(1);
-	doubleKeeper.push_back(0.0);
-	to_nbo(param, &doubleKeeper.back());
+	double tmp_d;
+	htonll(&param, &tmp_d);	
+	doubleKeeper.push_back(tmp_d);
 	parameter.push_back((char *)&doubleKeeper.back());
+	fmt::print("<< double : {} {} {}\n", param, doubleKeeper.back(), ntohll(doubleKeeper.back()));
 	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::double precision"));
+	return *this;
+}
+
+SqlBuilder& SqlBuilder::operator<<(const float param)
+{
+	length.push_back(sizeof(float));
+	format.push_back(1);	
+	float tmp_d;
+	htonl(&param, &tmp_d);	
+	floatKeeper.push_back(tmp_d);
+	parameter.push_back((char *)&floatKeeper.back());
+	fmt::print("<< float : {} {} {}\n", param, floatKeeper.back(), ntohl(floatKeeper.back()));
+	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::real"));
 	return *this;
 }
 
@@ -50,7 +69,7 @@ std::string SqlBuilder::get_sql()
 	return sql;
 }
 
-size_t * SqlBuilder::GetParamLength()
+int * SqlBuilder::GetParamLength()
 {
 	return NumParameters() ? length.data() : NULL;
 }
@@ -68,26 +87,4 @@ const char ** SqlBuilder::GetParameter()
 int SqlBuilder::NumParameters()
 {
 	return (int) parameter.size();
-}
-
-void SqlBuilder::to_nbo(const double in, double * out)
-{
-	uint64_t * i = (uint64_t *)&in;
-	uint32_t * r = (uint32_t *)out;
-
-	/* convert input to network byte order */
-	//r[0] = mhtonl((uint32_t)((*i) >> 32));
-	//r[1] = mhtonl((uint32_t)*i);
-}
-
-int SqlBuilder::mhtonl(int p)
-{
-	return p;
-}
-
-int htonl(const uint32_t net)
-{
-	uint8_t data[4] = {};
-	std::memcpy(&data, &net, sizeof(data));
-	return 0;
 }
