@@ -32,6 +32,7 @@ target_link_libraries(loader
 		util
 		sb_reader
 		postgreslib
+		curlpp
 		 ${ITK_LIBRARIES}
 )
 

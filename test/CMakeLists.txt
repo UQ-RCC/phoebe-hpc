@@ -19,6 +19,7 @@ target_link_libraries(test
 		${ITK_LIBRARIES}
 		postgres
 		postgreslib
+		curlpp
 )
 
 install(TARGETS test

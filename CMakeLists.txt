@@ -7,6 +7,7 @@ include("ImportTargets.cmake")
 #debug_targets()
 create_boost_target()
 create_prostgres_target()
+create_curl_target()
 
 find_package(fmt CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)

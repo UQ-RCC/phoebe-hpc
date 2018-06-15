@@ -17,11 +17,11 @@ SqlBuilder& SqlBuilder::operator<<(const int param)
 	length.push_back(sizeof(int));
 	format.push_back(1);
 	int tmp_i;
-	htoni(&param, &tmp_i);
+	phoebe::htoni(&param, &tmp_i);
 	intKeeper.push_back(tmp_i);	
 	parameter.push_back((char *)&intKeeper.back());
 	int tmp = *(&intKeeper.back());
-	fmt::print("<< int : {} {} {}\n", param, intKeeper.back(), ntohl(intKeeper.back()));
+	fmt::print("<< int : {} {} {}\n", param, intKeeper.back(), phoebe::ntohl(intKeeper.back()));
 	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::integer"));
 	return *this;
 }
@@ -31,10 +31,10 @@ SqlBuilder& SqlBuilder::operator<<(const double param)
 	length.push_back(sizeof(double));
 	format.push_back(1);
 	double tmp_d;
-	htonll(&param, &tmp_d);	
+	phoebe::htonll(&param, &tmp_d);	
 	doubleKeeper.push_back(tmp_d);
 	parameter.push_back((char *)&doubleKeeper.back());
-	fmt::print("<< double : {} {} {}\n", param, doubleKeeper.back(), ntohll(doubleKeeper.back()));
+	fmt::print("<< double : {} {} {}\n", param, doubleKeeper.back(), phoebe::ntohll(doubleKeeper.back()));
 	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::double precision"));
 	return *this;
 }
@@ -44,10 +44,10 @@ SqlBuilder& SqlBuilder::operator<<(const float param)
 	length.push_back(sizeof(float));
 	format.push_back(1);	
 	float tmp_d;
-	htonl(&param, &tmp_d);	
+	phoebe::htonl(&param, &tmp_d);
 	floatKeeper.push_back(tmp_d);
 	parameter.push_back((char *)&floatKeeper.back());
-	fmt::print("<< float : {} {} {}\n", param, floatKeeper.back(), ntohl(floatKeeper.back()));
+	fmt::print("<< float : {} {} {}\n", param, floatKeeper.back(), phoebe::ntohl(floatKeeper.back()));
 	parameterDef.push_back(std::string().append("$").append(std::to_string(parameter.size())).append("::real"));
 	return *this;
 }

@@ -29,7 +29,7 @@ namespace util
 	};
 }
 
-class CaptureDataFrame
+class capture_data_frame
 {
 public:
 
@@ -91,7 +91,7 @@ public:
 		return sb_data;
 	}
 
-	CaptureDataFrame(III::SBReadFile * sb_read_file, CaptureIndex capture_index, PositionIndex position_index)
+	capture_data_frame(III::SBReadFile * sb_read_file, CaptureIndex capture_index, PositionIndex position_index)
 		: sb_read_file(sb_read_file)
 		, capture_index(capture_index)
 		, position_index(position_index)
@@ -122,8 +122,7 @@ public:
 		{
 			channel_names.push_back(GetString(sb_read_file, capture_index, i, &III::SBReadFile::GetChannelName));
 			exposure_time.push_back(sb_read_file->GetExposureTime(capture_index, i));
-		}
-		
+		}		
 	}
 
 	std::string GetHeader(int capture_index, int position_index)
@@ -201,7 +200,7 @@ public:
 	SB_IO(const Options & options);
 	void setTCPmax(int t, int c, int p);
 	void writeFile(
-		CaptureDataFrame & metadata,		
+		capture_data_frame & metadata,		
 		const std::string & flag,
 		const std::string & extension,
 		bool compress,
@@ -230,8 +229,8 @@ SB_IO<ImageType>::SB_IO(const Options & options)
 
 template<typename ImageType>
 void SB_IO<ImageType>::writeFile(
-	CaptureDataFrame & metadata,	
-	const std::string & flag,	
+	capture_data_frame & metadata,
+	const std::string & flag,
 	const std::string & extension,
 	bool compress,
 	ImageType * image)

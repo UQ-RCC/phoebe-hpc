@@ -54,6 +54,18 @@ function(create_itk_target)
 	message(STATUS "ITK_USE_FILE : ${ITK_USE_FILE}")
 endfunction()
 
+function(create_curl_target)
+set (curlpp_root "C:/Program Files/curlpp")
+	find_package(curl CONFIG REQUIRED)
+	print_target_properties(CURL::libcurl)
+	print_target_properties(CURL::curl)
+	add_library(curlpp SHARED IMPORTED)	
+	set_property(TARGET curlpp PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${curlpp_root}/include)
+	set_property(TARGET curlpp PROPERTY IMPORTED_LOCATION ${curlpp_root}/bin/curlpp.dll)
+	set_property(TARGET curlpp PROPERTY IMPORTED_IMPLIB ${curlpp_root}/lib/curlpp.lib)
+	target_link_libraries(curlpp INTERFACE CURL::libcurl)
+endfunction()
+
 function(print_cache)
 	get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY CACHE_VARIABLES)
 	foreach(dir ${dirs})
@@ -127,3 +139,4 @@ macro(debug_targets)
 		PUBLIC_HEADER  
 	)
 endmacro()
+

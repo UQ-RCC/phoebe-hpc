@@ -3,7 +3,50 @@
 #include "itkVersion.h"
 #include "itkImportImageFilter.h"
 
+#include "curlpp/cURLpp.hpp"
+#include "curlpp/Easy.hpp"
+#include "curlpp/Options.hpp"
+#include "curlpp/Exception.hpp"
+
 void ConvertSBImages(const Options & options);
+
+namespace curlpp::FormParts
+{
+	class Buffer : public FormPart
+	{
+	public:
+		Buffer(std::string name, const char * buffer, long length)
+			: FormPart(name)
+			, buffer(buffer)
+			, length(length)
+		{}
+		~Buffer()
+		{}
+		Buffer * Buffer::clone() const
+		{
+			return new Buffer(*this);
+		}
+
+		void Buffer::add(::curl_httppost ** first, ::curl_httppost ** last)
+		{
+			curl_formadd(first,
+				last,
+				CURLFORM_PTRNAME,
+				mName.c_str(),
+				CURLFORM_BUFFER,
+				mName.c_str(),
+				CURLFORM_BUFFERPTR,
+				buffer,
+				CURLFORM_BUFFERLENGTH,
+				length,
+				CURLFORM_END);
+		}
+
+	private:
+		const char * buffer;
+		long length;
+	};
+}
 
 int main(int argc, char ** argv)
 {
@@ -49,6 +92,10 @@ void ConvertSBImages(const Options & options) try
 
 	phoebe_database * db;
 
+	curlpp::Cleanup cleaner;
+	curlpp::Easy request;
+	request.setOpt(new curlpp::options::Url("http://localhost:1337"));
+
 	if (options.destination_protocol == Protocol::OBJECT_STORE)
 	{
 		db = new phoebe_database(options.db_parameters);
@@ -57,7 +104,7 @@ void ConvertSBImages(const Options & options) try
 	for (int capture_index = 0; capture_index < number_captures; capture_index++)
 	{
 
-		CaptureDataFrame cp(sb_read_file, capture_index, 0);
+		capture_data_frame cp(sb_read_file, capture_index, 0);
 		if (options.verbose)
 		{
 			fmt::print("{}\n", cp.GetHeader(capture_index, cp.position_index));
@@ -103,17 +150,15 @@ void ConvertSBImages(const Options & options) try
 			if (cp.number_captures == 1)
 			{
 				folder_name.clear();
-				folder_name.assign("folder");
-				experiment_name = input_path.stem().string();			
+				//folder_name.assign("folder 2");
+				experiment_name = input_path.stem().string();
 			}
 			else
 			{
 				folder_name = input_path.stem().string();
 				experiment_name = cp.image_name;			
 			}
-
-			db->execute_proc("q_log", "test_client", "{}");
-						
+			
 			auto [experiment_id] = db->execute_proc<int>("insert_experiment",
 				experiment_name,
 				folder_name,
@@ -126,10 +171,6 @@ void ConvertSBImages(const Options & options) try
 				cp.voxel_size[1],
 				cp.voxel_size[2])[0];
 
-			fmt::print("exp: '{}', folder: '{}', id: {} [{} {} {}]\n", 
-				experiment_name, folder_name, experiment_id,
-				cp.voxel_size[0], cp.voxel_size[1], cp.voxel_size[2]);
-			
 		}
 
 		int cappedTime = cp.number_timepoints;
@@ -151,22 +192,49 @@ void ConvertSBImages(const Options & options) try
 				if (!options.debug)
 				{
 					sb_io.writeFile(cp, "", "tiff", false, imageImport->GetOutput());
-				}				
+				}
+
 			}
 			if (options.verbose)
 			{
 				fmt::print("processed timepoint {}\n", cp.GetTimepointIndexString());
-				if (options.destination_protocol == Protocol::OBJECT_STORE)
+			}
+			
+			if (options.destination_protocol == Protocol::OBJECT_STORE || true)
+			{
+				try
 				{
-					fmt::print("send to database\n");
+					curlpp::Forms formParts;
+					formParts.push_back(new curlpp::FormParts::Content("name", options.data_source));
+					formParts.push_back(new curlpp::FormParts::Content("directory", "dir"));
+					formParts.push_back(new curlpp::FormParts::Content("width", std::to_string(cp.xDim)));
+					formParts.push_back(new curlpp::FormParts::Content("height", std::to_string(cp.yDim)));
+					formParts.push_back(new curlpp::FormParts::Content("depth", std::to_string(cp.zDim)));
+					formParts.push_back(new curlpp::FormParts::Content("x-scale", std::to_string(cp.voxel_size[0])));
+					formParts.push_back(new curlpp::FormParts::Content("y-scale", std::to_string(cp.voxel_size[1])));
+					formParts.push_back(new curlpp::FormParts::Content("z-scale", std::to_string(cp.voxel_size[2])));
+					formParts.push_back(new curlpp::FormParts::Content("frame", std::to_string(cp.timepoint_index)));
+					request.setOpt(new curlpp::options::HttpPost(formParts));
+					request.perform();
+				}
+				catch (curlpp::LogicError & e) {
+					std::cout << e.what() << std::endl;
+				}
+				catch (curlpp::RuntimeError & e) {
+					std::cout << e.what() << std::endl;
 				}
 			}
+
 		}
+
 		delete[] buffer;
 	
 	}
 
-	delete db;
+	if (db != nullptr)
+	{
+		//delete db;
+	}
 
 }
 catch (const III::Exception * e)

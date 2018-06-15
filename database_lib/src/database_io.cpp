@@ -1,8 +1,7 @@
 #include "database_io.h"
 
 phoebe_database::phoebe_database(const connect_parameters & params)
-{
-	
+{	
 	meshConn = PQsetdbLogin(
 		params.host.c_str(),
 		params.port.c_str(), 
@@ -31,8 +30,14 @@ phoebe_database::phoebe_database(const connect_parameters & params)
 phoebe_database::~phoebe_database()
 {
 	fmt::print("datatbase disconnected\n");
-	PQfinish(meshConn);
-	PQfinish(frameConn);
+	if (meshConn != nullptr)
+	{
+		PQfinish(meshConn);
+	}
+	if (frameConn != nullptr)
+	{
+		PQfinish(frameConn);
+	}
 }
 
 void phoebe_database::test_connection()
