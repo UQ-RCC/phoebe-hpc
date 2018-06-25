@@ -190,6 +190,12 @@ public:
 	{		
 		return elapsed_range_fmt.string(sb_read_file->GetElapsedTime(capture_index, timepoint_index));
 	}
+
+	//quick fix 
+	std::string GetElapsedString_no_fmt()
+	{
+		return std::to_string(sb_read_file->GetElapsedTime(capture_index, timepoint_index));
+	}
 	
 };
 

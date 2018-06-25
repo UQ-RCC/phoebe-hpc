@@ -90,7 +90,7 @@ void ConvertSBImages(const Options & options) try
 	SB_IO<ImageType> sb_io(options);
 	CaptureIndex number_captures = sb_read_file->GetNumCaptures();
 
-	phoebe_database * db;
+	//phoebe_database * db;
 
 	curlpp::Cleanup cleaner;
 	curlpp::Easy request;
@@ -98,7 +98,7 @@ void ConvertSBImages(const Options & options) try
 
 	if (options.destination_protocol == Protocol::OBJECT_STORE)
 	{
-		db = new phoebe_database(options.db_parameters);
+		//db = new phoebe_database(options.db_parameters);
 	}
 	
 	for (int capture_index = 0; capture_index < number_captures; capture_index++)
@@ -117,7 +117,7 @@ void ConvertSBImages(const Options & options) try
 		std::size_t planeSize = cp.xDim * cp.yDim;
 		int bufferSize = cp.xDim * cp.yDim * cp.zDim;
 		PixelType * buffer = new UInt16[bufferSize];
-
+				
 		ImageType * image = ImageType::New();
 		ImageType::IndexType corner = { { 0, 0, 0 } };
 
@@ -137,6 +137,7 @@ void ConvertSBImages(const Options & options) try
 		imageImport->SetRegion(region);
 		const itk::SpacePrecisionType origin[3] = { 0.0, 0.0, 0.0 };
 		imageImport->SetOrigin(origin);
+		//Tiff spacing isn't being imported properly in ImageJ
 		//const itk::SpacePrecisionType  spacing[3] = { cp.voxel_size[0], cp.voxel_size[1], cp.voxel_size[2] };
 		const itk::SpacePrecisionType  spacing[3] = { 1.0, 1.0, 1.0 };
 		imageImport->SetSpacing(spacing);
@@ -149,16 +150,16 @@ void ConvertSBImages(const Options & options) try
 		{
 			if (cp.number_captures == 1)
 			{
-				folder_name.clear();
-				//folder_name.assign("folder 2");
+				folder_name.clear();				
 				experiment_name = input_path.stem().string();
 			}
 			else
 			{
 				folder_name = input_path.stem().string();
-				experiment_name = cp.image_name;			
+				experiment_name = cp.image_name;
 			}
 			
+			/*
 			auto [experiment_id] = db->execute_proc<int>("insert_experiment",
 				experiment_name,
 				folder_name,
@@ -170,7 +171,7 @@ void ConvertSBImages(const Options & options) try
 				cp.voxel_size[0],
 				cp.voxel_size[1],
 				cp.voxel_size[2])[0];
-
+			*/
 		}
 
 		int cappedTime = cp.number_timepoints;
@@ -189,31 +190,35 @@ void ConvertSBImages(const Options & options) try
 				{
 					sb_read_file->ReadImagePlaneBuf(buffer + (z * planeSize), capture_index, 0, timepoint_index, z, c);
 				}
-				if (!options.debug)
+				if (!options.debug && (options.destination_protocol == Protocol::FILE_SYSTEM))
 				{
 					sb_io.writeFile(cp, "", "tiff", false, imageImport->GetOutput());
 				}
-
 			}
 			if (options.verbose)
 			{
 				fmt::print("processed timepoint {}\n", cp.GetTimepointIndexString());
 			}
 			
-			if (options.destination_protocol == Protocol::OBJECT_STORE || true)
+			if ((options.destination_protocol == Protocol::OBJECT_STORE || true))
 			{
 				try
 				{
 					curlpp::Forms formParts;
-					formParts.push_back(new curlpp::FormParts::Content("name", options.data_source));
-					formParts.push_back(new curlpp::FormParts::Content("directory", "dir"));
+					formParts.push_back(new curlpp::FormParts::Content("experimentName", experiment_name));
+					formParts.push_back(new curlpp::FormParts::Content("directory", folder_name));
 					formParts.push_back(new curlpp::FormParts::Content("width", std::to_string(cp.xDim)));
 					formParts.push_back(new curlpp::FormParts::Content("height", std::to_string(cp.yDim)));
 					formParts.push_back(new curlpp::FormParts::Content("depth", std::to_string(cp.zDim)));
-					formParts.push_back(new curlpp::FormParts::Content("x-scale", std::to_string(cp.voxel_size[0])));
-					formParts.push_back(new curlpp::FormParts::Content("y-scale", std::to_string(cp.voxel_size[1])));
-					formParts.push_back(new curlpp::FormParts::Content("z-scale", std::to_string(cp.voxel_size[2])));
-					formParts.push_back(new curlpp::FormParts::Content("frame", std::to_string(cp.timepoint_index)));
+					formParts.push_back(new curlpp::FormParts::Content("xScale", std::to_string(cp.voxel_size[0])));
+					formParts.push_back(new curlpp::FormParts::Content("yScale", std::to_string(cp.voxel_size[1])));
+					formParts.push_back(new curlpp::FormParts::Content("zScale", std::to_string(cp.voxel_size[2])));
+					formParts.push_back(new curlpp::FormParts::Content("channelNumber", std::to_string(cp.channels_index + 1)));
+					formParts.push_back(new curlpp::FormParts::Content("channelName", cp.channel_names[cp.channels_index]));
+					formParts.push_back(new curlpp::FormParts::Content("timepoint", std::to_string(cp.timepoint_index)));
+					formParts.push_back(new curlpp::FormParts::Content("msec", cp.GetElapsedString_no_fmt()));
+					formParts.push_back(new curlpp::FormParts::Buffer("raw buffer", (char *) buffer, bufferSize * sizeof(UInt16)));			
+					fmt::print("sent buffer {}\n", sizeof(UInt16) * bufferSize);
 					request.setOpt(new curlpp::options::HttpPost(formParts));
 					request.perform();
 				}
@@ -231,10 +236,12 @@ void ConvertSBImages(const Options & options) try
 	
 	}
 
+	/*
 	if (db != nullptr)
 	{
-		//delete db;
+		delete db;
 	}
+	*/
 
 }
 catch (const III::Exception * e)
